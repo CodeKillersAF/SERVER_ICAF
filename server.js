@@ -9,7 +9,7 @@ app.use(express.json());
 
 const port = 5000;
 const uri = "mongodb+srv://CodeKiller:codekiller123@codekillers.v97wx.mongodb.net/icaf_DB?retryWrites=true&w=majority";
-mongoose.connect(uri, {useNewUrlParser:true, useCreateIndex: true});
+mongoose.connect(uri, {useNewUrlParser:true, useUnifiedTopology: true});
 const connection = mongoose.connection;
 connection.once('open', () => {
     console.log("MongoDB database connection established successfully");
