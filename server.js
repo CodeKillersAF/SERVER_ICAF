@@ -1,20 +1,34 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const bodyParser = require('body-parser');
+
+dotenv.config();
 const app = express();
 
-
+app.use(bodyParser.json());
 app.use(cors());
-app.use(express.json());
 
-const port = 5000;
-const uri = "mongodb+srv://CodeKiller:codekiller123@codekillers.v97wx.mongodb.net/icaf_DB?retryWrites=true&w=majority";
-mongoose.connect(uri, {useNewUrlParser:true, useCreateIndex: true});
-const connection = mongoose.connection;
-connection.once('open', () => {
-    console.log("MongoDB database connection established successfully");
+const PORT = process.env.PORT;
+const MONGODB_URI = process.env.MONGODB_URI;
+
+
+mongoose.connect(MONGODB_URI, {
+    useNewUrlParser:true, 
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false
+}, error => {
+    if(error){
+        console.log('Database connection failed' + error.message );
+    } 
 });
 
-app.listen(port, ()=>{
-    console.log(`App is running on port : ${port}`);
+mongoose.connection.once('open', ()=>{
+    console.log('Database connected successfully');
+});
+
+app.listen(PORT, ()=>{
+    console.log(`App is running on port : ${PORT}`);
 })
