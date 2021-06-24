@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const passport = require('passport');
+const EditRoutes = require('./routes/Edit_User/edit_user.route');
 
 dotenv.config();
 const app = express();
@@ -38,6 +39,7 @@ mongoose.connection.once('open', ()=>{
 app.use('/api/users', require('./routes/Login_Routes/User_login.route'));
 app.use('/api/users', require('./routes/Protected_Routes/User_Protected.route'));
 app.use('/api/users', require('./routes/Register_Routes/User_Register.route'));
+app.use('/api/users', EditRoutes());
 
 app.listen(PORT, ()=>{
     console.log(`App is running on port : ${PORT}`);
