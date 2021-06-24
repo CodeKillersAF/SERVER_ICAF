@@ -15,6 +15,23 @@ const createResearchPaperPublisher = async (req,res) => {
     }
 }
 
+//get all research paper publishers who are approved
+
+const getResearchPaperPublisherApproved = async (req,res) => {
+    try {
+        await ResearchPaperPublisher.find({is_approved : false})
+        .then(data => {
+            res.status(200).send({data:data});
+        })
+        .catch(error => {
+            res.status(500).send({error: error.message});
+        })
+    } catch (error) {
+        res.send({error: error.messsage});
+    }
+}
+
 module.exports = {
-    createResearchPaperPublisher
+    createResearchPaperPublisher,
+    getResearchPaperPublisherApproved
 };
