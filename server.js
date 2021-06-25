@@ -3,12 +3,18 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
+const passport = require('passport');
 
 dotenv.config();
 const app = express();
 
 app.use(bodyParser.json());
 app.use(cors());
+
+//inject as middleware
+app.use(passport.initialize());
+
+require('./middlewares/Validate.token')(passport);
 
 const PORT = process.env.PORT;
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -28,6 +34,10 @@ mongoose.connect(MONGODB_URI, {
 mongoose.connection.once('open', ()=>{
     console.log('Database connected successfully');
 });
+
+app.use('/api/users', require('./routes/Login_Routes/User_login.route'));
+app.use('/api/users', require('./routes/Protected_Routes/User_Protected.route'));
+app.use('/api/users', require('./routes/Register_Routes/User_Register.route'));
 
 app.listen(PORT, ()=>{
     console.log(`App is running on port : ${PORT}`);
