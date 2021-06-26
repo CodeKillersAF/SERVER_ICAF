@@ -1,4 +1,7 @@
 const router = require('express').Router();
+const { getAttendeesApproved } = require('../../controllers/attendeeController');
+const { getAllWorkShopConductoresApproved } = require('../../controllers/workShopConductorController');
+const { getResearchPaperPublisherApproved } = require('../../controllers/researchPaperPublisher');
 
 const { userAuth, checkRole } = require('../../controllers/Auth.controller');
 
@@ -30,6 +33,18 @@ router.get('/admin&reviewer-protected', userAuth, checkRole(['admin', 'reviewer'
 //admin and reviewer and editor protected route
 router.get('/admin&reviewer&editor-protected', userAuth, checkRole(['admin', 'reviewer', 'editor']), async(req, res) => {
     return res.send("Hello Admin and Reviewer and Editor");
+});
+
+router.get('/get-attendees-is-approved' , userAuth, checkRole(['admin', 'editor']), async(req, res) => {
+    await getAttendeesApproved(req.body, res);
+});
+
+router.get('/get-all-approved-work-shop-conductors' , userAuth , checkRole(['admin', 'editor']), async(req, res) => {
+    await getAllWorkShopConductoresApproved(req.body, res);
+});
+
+router.get('/get-approved-research-paper-publishers' , userAuth , checkRole(['admin', 'editor']), async(req, res) => {
+    await getResearchPaperPublisherApproved(req.body, res);
 });
 
 module.exports = router;
