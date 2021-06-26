@@ -1,6 +1,7 @@
 const router = require('express').Router();
 
 const { userAuth, checkRole } = require('../../controllers/Auth.controller');
+const { updateRole, updateUserDetails, deleteUser } = require('../../controllers/Edit_User/edit_user');
 
 //editor protected route
 router.get('/editor-protected', userAuth, checkRole(['editor']), async(req, res) => {
@@ -30,6 +31,21 @@ router.get('/admin&reviewer-protected', userAuth, checkRole(['admin', 'reviewer'
 //admin and reviewer and editor protected route
 router.get('/admin&reviewer&editor-protected', userAuth, checkRole(['admin', 'reviewer', 'editor']), async(req, res) => {
     return res.send("Hello Admin and Reviewer and Editor");
+});
+
+//update role type admin
+router.put('/update/role/:id' , userAuth , checkRole(['admin']), async(req, res) => {
+    await updateRole(req.body, res);
+});
+
+//update details of them
+router.put('/update/:id' , userAuth , checkRole(['admin', 'reviewer', 'editor']), async(req, res) => {
+    await updateUserDetails(req.body, res);
+});
+
+//update role type admin
+router.delete('/delete/:id' , userAuth , checkRole(['admin']), async(req, res) => {
+    await deleteUser(req.body, res);
 });
 
 module.exports = router;

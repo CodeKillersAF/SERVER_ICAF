@@ -46,7 +46,7 @@ const updateRole = async(req, res) => {
       role: req.body.role,
     })
     .then((data) => {
-      res.status(200).send({ data: data })
+      res.status(200).send({ data: data.role })
     })
     .catch((error) => {
       res.status(500).send({ error: error.message })
