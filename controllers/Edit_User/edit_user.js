@@ -1,8 +1,8 @@
 const User = require('../../models/User.model');
 
   //delete method
-  const deleteUser = async (req, res) => {
-    await User.findByIdAndDelete(req.params.id)
+  const deleteUser = async (id, res) => {
+    await User.findByIdAndDelete(id)
     .then(data => {
       res.status(200).send({ data: "Deleted Successfully" });
     })
@@ -11,24 +11,27 @@ const User = require('../../models/User.model');
     });
   }
 
-const findUser = async (req, res) => {
-  await User.findById(req.params.id)
+const findUser = async (id, res) => {
+  if(id){
+  await User.findById(id)
   .then(data => {
     res.status(200).send({ data: data });
   })
   .catch(error => {
     res.status(500).send({ error: error.message });
   })
+ }
 }
 
 //update operation
-const updateUserDetails = async(req, res) => {
-  if(req.body && req.params.id)
+const updateUserDetails = async(req, id, res) => {
+  
+  if(req && id)
   {
-    await User.findByIdAndUpdate(req.params.id, {
-      name: req.body.name,
-      email: req.body.email,
-      username: req.body.username,
+    await User.findByIdAndUpdate(id, {
+      name: req.name,
+      email: req.email,
+      username: req.username
     })
     .then((data) => {
       res.status(200).send({ data: data })
@@ -39,12 +42,15 @@ const updateUserDetails = async(req, res) => {
   }
 }
 
-const updateRole = async(req, res) => {
-  if(req.body && req.params.id)
+const updateRole = async(req, id, res) => {
+ // console.log('test');
+
+  if(req.body && id)
   {
-    await User.findByIdAndUpdate(req.params.id, {
+    await User.findByIdAndUpdate(id, {
       role: req.body.role,
     })
+    //console.log(role);
     .then((data) => {
       res.status(200).send({ data: data.role })
     })
@@ -54,9 +60,22 @@ const updateRole = async(req, res) => {
   }
 }
 
+const findUserByRole = async(name, res) => {
+  if(name){
+    await User.find({role: name})
+    .then((data) => {
+      res.status(200).send({ data: data });
+    })
+    .catch((error) => {
+      res.status(500).send({ error: error.message });
+    })
+  }
+}
+
   module.exports = {
       deleteUser,
       findUser,
       updateUserDetails,
-      updateRole
+      updateRole,
+      findUserByRole
   }
