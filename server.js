@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const AttendeeAPI = require('./routes/attendeeAPI');
 const WorkShopConductorAPI = require('./routes/workShopConductorAPI');
 const ResearchPaperPublisherAPI = require('./routes/researchPaperPublisherAPI');
+const ConferenceDetailAPI = require('./routes/conference-detail.api');
 const passport = require('passport');
 
 
@@ -46,7 +47,7 @@ app.use('/api/research-paper-publisher',ResearchPaperPublisherAPI());
 app.use('/api/users', require('./routes/Login_Routes/User_login.route'));
 app.use('/api/users', require('./routes/Protected_Routes/User_Protected.route'));
 app.use('/api/users', require('./routes/Register_Routes/User_Register.route'));
-
+app.use('/api/conference-detail',ConferenceDetailAPI());
 
 app.listen(PORT, ()=>{
     console.log(`App is running on port : ${PORT}`);
