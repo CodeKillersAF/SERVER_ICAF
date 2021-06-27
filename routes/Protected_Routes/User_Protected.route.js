@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { getAttendeesApproved } = require('../../controllers/attendeeController');
 const { getAllWorkShopConductoresApproved } = require('../../controllers/workShopConductorController');
 const { getResearchPaperPublisherApproved } = require('../../controllers/researchPaperPublisher');
+const { getAllContacts } = require('../../controllers/contactUsController');
 
 const { userAuth, checkRole } = require('../../controllers/Auth.controller');
 
@@ -45,6 +46,10 @@ router.get('/get-all-approved-work-shop-conductors' , userAuth , checkRole(['adm
 
 router.get('/get-approved-research-paper-publishers' , userAuth , checkRole(['admin', 'editor']), async(req, res) => {
     await getResearchPaperPublisherApproved(req.body, res);
+});
+
+router.get('/get-all-contacts', userAuth , checkRole(['admin']), async(req,res) => {
+    await getAllContacts(req,res);
 });
 
 module.exports = router;
