@@ -9,7 +9,7 @@ const passport = require('passport');
  * admin , editor , user
  */
 
-const userRegister = async (userData, role, res) => {
+const userRegister = async (userData /* role */ , res) => {
     try {
         //validate username
         let usernameNotTaken = await validateUsername(userData.username);
@@ -35,7 +35,7 @@ const userRegister = async (userData, role, res) => {
         const newUser = new User({
             ...userData,
             password,
-            role
+            //role
         });
 
         const userSignup = await newUser.save();
@@ -67,7 +67,7 @@ const userRegister = async (userData, role, res) => {
 };
 
 //user login
-const userLogin = async (userCredit, role, res) => {
+const userLogin = async (userCredit /* role */, res) => {
     //get the username
     let { username, password } = userCredit;
 
@@ -81,12 +81,12 @@ const userLogin = async (userCredit, role, res) => {
     }
 
     //check the role
-    if(user.role != role) {
-        return res.status(403).json({
-            message: "Make sure your role is correct",
-            success: false
-        });
-    }
+    // if(user.role != role) {
+    //     return res.status(403).json({
+    //         message: "Make sure your role is correct",
+    //         success: false
+    //     });
+    // }
 
     //if user is existing and try to signin from right role
     //now check the password
