@@ -27,6 +27,12 @@ const ConferenceDetailSchema = new mongoose.Schema({
         required: true,
         default: false
     }
+    // events: [
+    //     {
+    //         topic: { type: String },
+    //         discussions: [{ type: String }]
+    //     }
+    // ]
 
 });
 
