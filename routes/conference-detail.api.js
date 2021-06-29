@@ -8,7 +8,7 @@ const conferenceDetailAPI = () => {
     router.put('/:id', ConferenceDetailController.updateAllDetails);
     router.put('/update-status/:id', ConferenceDetailController.updateStatus);
     router.delete('/:id', ConferenceDetailController.removeConferenceDetail);
-
+    router.get('/:id', ConferenceDetailController.getConferenceDetailByID);
     return router;
 }
 

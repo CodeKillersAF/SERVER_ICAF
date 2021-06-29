@@ -68,6 +68,17 @@ const removeConferenceDetail = async (req, res) => {
     }
 };
 
+const getConferenceDetailByID = async (req, res) => {
+    if (req.params.id) {
+        await ConferenceDetail.findById(req.params.id)
+            .then((data) => {
+                res.status(200).send({ data: data });
+            })
+            .catch((error) => {
+                res.status(500).send({ error: error.message });
+            });
+    }
+};
 // const getConferenceDetails = async (req, res) => {
 //     try {
 //         await ConferenceDetail.find({ is_approved: false })
@@ -89,5 +100,6 @@ module.exports = {
     getConferenceDetails,
     updateStatus,
     updateAllDetails,
-    removeConferenceDetail
+    removeConferenceDetail,
+    getConferenceDetailByID
 }
