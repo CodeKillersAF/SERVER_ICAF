@@ -66,6 +66,26 @@ const deleteKeynote = async (req, res) => {
     res.send({ error: error });
   }
 };
+const getApprovedKeynotes = async(req,res)=>{
+  await Keynote.find({is_approved:true})
+  .then((data)=>{
+    res.status(200).send({data:data});
+  })
+  .catch((error)=>{
+      res.status(500).send({error:error})
+  })
+}
+
+const getPendingKeynotes = async(req,res)=>{
+  await Keynote.find({is_approved:false})
+  .then((data)=>{
+    res.status(200).send({data:data});
+  })
+  .catch((error)=>{
+      res.status(500).send({error:error})
+  })
+}
+
 
 
 module.exports = {
@@ -73,4 +93,6 @@ module.exports = {
   getAllKeynotes,
   updateKeynote,
   addKeynote,
+  getApprovedKeynotes,
+  getPendingKeynotes
 };
