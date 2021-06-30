@@ -9,7 +9,7 @@ const passport = require('passport');
  * admin , editor , user
  */
 
-const userRegister = async (userData, role, res) => {
+const userRegister = async (userData /*, role,*/ , res) => {
     try {
         //validate username
         let usernameNotTaken = await validateUsername(userData.username);
@@ -35,7 +35,7 @@ const userRegister = async (userData, role, res) => {
         const newUser = new User({
             ...userData,
             password,
-            role
+            //role
         });
 
         const userSignup = await newUser.save();
@@ -57,7 +57,8 @@ const userRegister = async (userData, role, res) => {
                 }
                 res.status(200).json({
                   token,
-                  userSignup
+                  userSignup,
+                  message: 'User Registered Successfully'
                 })
               })  
 
@@ -67,7 +68,7 @@ const userRegister = async (userData, role, res) => {
 };
 
 //user login
-const userLogin = async (userCredit, role, res) => {
+const userLogin = async (userCredit /*, role, */ ,  res) => {
     //get the username
     let { username, password } = userCredit;
 
