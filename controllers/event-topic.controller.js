@@ -38,7 +38,7 @@ const removeTopic = async (req, res) => {
 const updateTopic = async (req, res) => {
     if (req.params.id && req.body) {
         await EventTopic.findByIdAndUpdate(req.params.id, {
-            name: req.body.name
+            topic: req.body.topic
         })
             .then((data) => {
                 res.status(200).send({ data: data });

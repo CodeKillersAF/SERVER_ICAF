@@ -3,7 +3,6 @@ const EventDiscussion = require('../models/event-discussion.model');
 const createEventDiscussion = async (req, res) => {
     if (req.body) {
         const event_discussion = new EventDiscussion(req.body);
-        console.log(req.body)
         await event_discussion.save()
             .then(data => {
                 res.status(200).send({ data: data })
@@ -15,7 +14,7 @@ const createEventDiscussion = async (req, res) => {
 }
 
 const getEventDiscussions = async (req, res) => {
-    await EventDiscussion.find({}).populate('eventTopics', 'name')
+    await EventDiscussion.find({}).populate('eventTopics', 'topic')
         .then(data => {
             res.status(200).send({ data: data });
         })
