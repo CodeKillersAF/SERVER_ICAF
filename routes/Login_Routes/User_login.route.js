@@ -3,7 +3,7 @@ const router = require('express').Router();
 const { userLogin } = require('../../controllers/Auth.controller');
 
 //editor login route
-router.post('/login-editor', async(req, res) => {
+router.post('/login-user', async(req, res) => {
     await userLogin(req.body, "editor", res);
 });
 

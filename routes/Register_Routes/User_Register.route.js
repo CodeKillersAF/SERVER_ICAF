@@ -3,8 +3,8 @@ const router = require('express').Router();
 const { userRegister } = require('../../controllers/Auth.controller');
 
 //editor registration route
-router.post('/register-editor', async(req, res) => {
-    await userRegister(req.body, "editor", res);
+router.post('/register-user', async(req, res) => {
+    await userRegister(req.body, res);
 });
 
 //admin registration route
