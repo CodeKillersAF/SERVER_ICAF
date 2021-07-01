@@ -1,4 +1,8 @@
 const router = require('express').Router();
+const { getAttendeesApproved } = require('../../controllers/attendeeController');
+const { getAllWorkShopConductoresApproved } = require('../../controllers/workShopConductorController');
+const { getResearchPaperPublisherApproved } = require('../../controllers/researchPaperPublisher');
+const { getAllContacts } = require('../../controllers/contactUsController');
 
 const { userAuth, checkRole } = require('../../controllers/Auth.controller');
 const { updateRole, updateUserDetails, deleteUser, findUserByRole, findUser, getallUsers } = require('../../controllers/Edit_User/edit_user');
@@ -33,10 +37,10 @@ router.get('/admin&reviewer&editor-protected', userAuth, checkRole(['admin', 're
     return res.send("Hello Admin and Reviewer and Editor");
 });
 
+
 //update role type admin
 router.put('/update/role/:id' /*, userAuth , checkRole(['admin']) */, async(req, res) => {
     await updateRole(req, req.params.id, res);
-    
 });
 
 //update details of them
@@ -59,6 +63,21 @@ router.get('/finduser/:id' /*, userAuth, checkRole(['admin']) ,*/ , async(req, r
 
 router.get('/getAll' /*, userAuth, checkRole(['admin']) */, async(req, res) => {
     await getallUsers(req, res);
+
+router.get('/get-attendees-is-approved' , userAuth, checkRole(['admin', 'editor']), async(req, res) => {
+    await getAttendeesApproved(req.body, res);
+});
+
+router.get('/get-all-approved-work-shop-conductors' , userAuth , checkRole(['admin', 'editor']), async(req, res) => {
+    await getAllWorkShopConductoresApproved(req.body, res);
+});
+
+// router.get('/get-approved-research-paper-publishers' , userAuth , checkRole(['admin', 'editor']), async(req, res) => {
+//     await getResearchPaperPublisherApproved(req.body, res);
+// });
+
+router.get('/get-all-contacts', userAuth , checkRole(['admin']), async(req,res) => {
+    await getAllContacts(req,res);
 });
 
 module.exports = router;
