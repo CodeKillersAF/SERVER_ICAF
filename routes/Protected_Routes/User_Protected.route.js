@@ -44,9 +44,9 @@ router.get('/get-all-approved-work-shop-conductors' , userAuth , checkRole(['adm
     await getAllWorkShopConductoresApproved(req.body, res);
 });
 
-router.get('/get-approved-research-paper-publishers' , userAuth , checkRole(['admin', 'editor']), async(req, res) => {
-    await getResearchPaperPublisherApproved(req.body, res);
-});
+// router.get('/get-approved-research-paper-publishers' , userAuth , checkRole(['admin', 'editor']), async(req, res) => {
+//     await getResearchPaperPublisherApproved(req.body, res);
+// });
 
 router.get('/get-all-contacts', userAuth , checkRole(['admin']), async(req,res) => {
     await getAllContacts(req,res);
