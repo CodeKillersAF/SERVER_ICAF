@@ -5,7 +5,7 @@ const WorkShopConductorController = require('../controllers/workShopConductorCon
 
 const WorkShopConductorAPI = () => {
     router.post('/add-workshopconductor', WorkShopConductorController.addWorkShopConductor);
-    router.get('/get-all-approved-work-shop-conductors', WorkShopConductorController.getAllWorkShopConductoresApproved);
+    //router.get('/get-all-approved-work-shop-conductors', WorkShopConductorController.getAllWorkShopConductoresApproved);
     return router;
 }
 
