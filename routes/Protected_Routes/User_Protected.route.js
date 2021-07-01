@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { getAttendeesApproved } = require('../../controllers/attendeeController');
+const { getAttendeesApproved, getAllAttendess, setApproval } = require('../../controllers/attendeeController');
 const { getAllWorkShopConductoresApproved } = require('../../controllers/workShopConductorController');
 const { getResearchPaperPublisherApproved } = require('../../controllers/researchPaperPublisher');
 const { getAllContacts } = require('../../controllers/contactUsController');
@@ -39,30 +39,31 @@ router.get('/admin&reviewer&editor-protected', userAuth, checkRole(['admin', 're
 
 
 //update role type admin
-router.put('/update/role/:id' /*, userAuth , checkRole(['admin']) */, async(req, res) => {
+router.put('/update/role/:id' , userAuth , checkRole(['admin']) , async(req, res) => {
     await updateRole(req, req.params.id, res);
 });
 
 //update details of them
-router.put('/update/:id' /*, userAuth , checkRole(['admin']) */, async(req, res) => {
+router.put('/update/:id' , userAuth , checkRole(['admin']) , async(req, res) => {
     await updateUserDetails(req.body, req.params.id, res);
 });
 
 //update role type admin
-router.delete('/delete/:id' /*, userAuth , checkRole(['admin']) */ , async(req, res) => {
+router.delete('/delete/:id' , userAuth , checkRole(['admin']) , async(req, res) => {
     await deleteUser(req.params.id, res);
 });
 
-router.get('/getRole/:name' /*, userAuth , checkRole(['admin']) */ , async(req, res) => {
+router.get('/getRole/:name' , userAuth , checkRole(['admin']) , async(req, res) => {
     await findUserByRole(req.params.name, res);
 });
 
-router.get('/finduser/:id' /*, userAuth, checkRole(['admin']) ,*/ , async(req, res) => {
+router.get('/finduser/:id' , userAuth, checkRole(['admin']) , async(req, res) => {
     await findUser(req.params.id, res);
 });
 
-router.get('/getAll' /*, userAuth, checkRole(['admin']) */, async(req, res) => {
+router.get('/getAll' , userAuth, checkRole(['admin']) , async(req, res) => {
     await getallUsers(req, res);
+});
 
 router.get('/get-attendees-is-approved' , userAuth, checkRole(['admin', 'editor']), async(req, res) => {
     await getAttendeesApproved(req.body, res);
@@ -78,6 +79,14 @@ router.get('/get-all-approved-work-shop-conductors' , userAuth , checkRole(['adm
 
 router.get('/get-all-contacts', userAuth , checkRole(['admin']), async(req,res) => {
     await getAllContacts(req,res);
+});
+
+router.get('/get-attendees-not-approved', userAuth , checkRole(['admin', 'reviewer']), async(req,res) => {
+    await getAllAttendess(req,res);
+});
+
+router.put('/set-approval/:id', userAuth , checkRole(['admin', 'reviewer']), async(req,res) => {
+    await setApproval(req,res);
 });
 
 module.exports = router;

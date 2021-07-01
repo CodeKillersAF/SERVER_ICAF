@@ -140,17 +140,17 @@ const userAuth = passport.authenticate('jwt', { session: false});
  * @description_check_role_middleware
  */
 const checkRole = roles => (req, res, next) => 
-            !roles.includes(req.user.role) ? res.status(401).json("Unauthorized") 
+            !roles.includes(req.user.role) ? res.status(401).send({error: 'Unauthorized'}) 
             : next();
 // {
-//     //whatever the role in our request
-//     if(roles.includes(req.user.role)) {
-//         return next();
-//     }
-//     return res.status(401).json({
-//         message: "Unothorized",
-//         success: false
-//     });
+    // //whatever the role in our request
+    // if(roles.includes(req.user.role)) {
+    //     return next();
+    // }
+    // return res.status(401).json({
+    //     message: "Unothorized",
+    //     success: false
+    // });
 // };
 
 const validateEmail = async email => {
