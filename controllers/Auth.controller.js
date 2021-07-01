@@ -82,12 +82,12 @@ const userLogin = async (userCredit /*, role, */ ,  res) => {
     }
 
     //check the role
-    if(user.role != role) {
-        return res.status(403).json({
-            message: "Make sure your role is correct",
-            success: false
-        });
-    }
+    // if(user.role != role) {
+    //     return res.status(403).json({
+    //         message: "Make sure your role is correct",
+    //         success: false
+    //     });
+    // }
 
     //if user is existing and try to signin from right role
     //now check the password

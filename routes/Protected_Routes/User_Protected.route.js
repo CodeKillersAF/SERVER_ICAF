@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 const { userAuth, checkRole } = require('../../controllers/Auth.controller');
-const { updateRole, updateUserDetails, deleteUser, findUserByRole, findUser } = require('../../controllers/Edit_User/edit_user');
+const { updateRole, updateUserDetails, deleteUser, findUserByRole, findUser, getallUsers } = require('../../controllers/Edit_User/edit_user');
 
 //editor protected route
 router.get('/editor-protected', userAuth, checkRole(['editor']), async(req, res) => {
@@ -40,21 +40,25 @@ router.put('/update/role/:id' /*, userAuth , checkRole(['admin']) */, async(req,
 });
 
 //update details of them
-router.put('/update/:id' , userAuth , checkRole(['admin', 'reviewer', 'editor']), async(req, res) => {
+router.put('/update/:id' /*, userAuth , checkRole(['admin']) */, async(req, res) => {
     await updateUserDetails(req.body, req.params.id, res);
 });
 
 //update role type admin
-router.delete('/delete/:id' , userAuth , checkRole(['admin']) , async(req, res) => {
+router.delete('/delete/:id' /*, userAuth , checkRole(['admin']) */ , async(req, res) => {
     await deleteUser(req.params.id, res);
 });
 
-router.get('/getRole/:name' , userAuth , checkRole(['admin'])  , async(req, res) => {
+router.get('/getRole/:name' /*, userAuth , checkRole(['admin']) */ , async(req, res) => {
     await findUserByRole(req.params.name, res);
 });
 
-router.get('/finduser/:id' , userAuth, checkRole(['admin']) , async(req, res) => {
+router.get('/finduser/:id' /*, userAuth, checkRole(['admin']) ,*/ , async(req, res) => {
     await findUser(req.params.id, res);
-})
+});
+
+router.get('/getAll' /*, userAuth, checkRole(['admin']) */, async(req, res) => {
+    await getallUsers(req, res);
+});
 
 module.exports = router;

@@ -72,10 +72,21 @@ const findUserByRole = async(name, res) => {
   }
 }
 
+const getallUsers = async(req, res) => {
+  await User.find({ })
+   .then((data) => {
+      res.status(200).send({ data: data });
+   })
+   .catch((error) => {
+      res.status(500).send({ error: error.message });
+   })
+}
+
   module.exports = {
       deleteUser,
       findUser,
       updateUserDetails,
       updateRole,
-      findUserByRole
+      findUserByRole,
+      getallUsers
   }
