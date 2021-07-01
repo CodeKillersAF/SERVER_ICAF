@@ -4,8 +4,10 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const AttendeeAPI = require('./routes/attendeeAPI');
+const KeynoteAPI = require("./routes/keynote.route");
 const WorkShopConductorAPI = require('./routes/workShopConductorAPI');
 const ResearchPaperPublisherAPI = require('./routes/researchPaperPublisherAPI');
+const ContactUsAPI = require('./routes/contactUsAPI');
 const passport = require('passport');
 
 
@@ -39,10 +41,11 @@ mongoose.connection.once('open', ()=>{
     console.log('Database connected successfully');
 });
 
-
+app.use('/api/keynotes',KeynoteAPI());
 app.use('/api/attendee', AttendeeAPI());
 app.use('/api/work-shop-conductor', WorkShopConductorAPI());
 app.use('/api/research-paper-publisher',ResearchPaperPublisherAPI());
+app.use('/api/contact-us', ContactUsAPI());
 app.use('/api/users', require('./routes/Login_Routes/User_login.route'));
 app.use('/api/users', require('./routes/Protected_Routes/User_Protected.route'));
 app.use('/api/users', require('./routes/Register_Routes/User_Register.route'));
