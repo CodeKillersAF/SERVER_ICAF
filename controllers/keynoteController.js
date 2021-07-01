@@ -1,3 +1,4 @@
+const keynote = require("../models/keynote.model");
 const Keynote = require("../models/keynote.model");
 
 const addKeynote = async (req, res) => {
@@ -31,6 +32,19 @@ const getAllKeynotes = async (req, res) => {
     res.send({ error: error });
   }
 };
+
+const getKeynoteByID = async(req,res)=>{
+  if(req.params.id){
+    await Keynote.findById(req.params.id)
+    .then((data)=>{
+      res.status(200).send({data:data});
+    })
+    .catch((error)=>{
+      res.status(500).send({error:error})
+    })
+  }
+ 
+}
 
 const updateKeynote = async (req, res) => {
   try {
@@ -94,5 +108,6 @@ module.exports = {
   updateKeynote,
   addKeynote,
   getApprovedKeynotes,
-  getPendingKeynotes
+  getPendingKeynotes,
+  getKeynoteByID
 };

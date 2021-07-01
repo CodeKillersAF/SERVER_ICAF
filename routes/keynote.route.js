@@ -9,6 +9,7 @@ const KeynoteAPI = ()=>{
     router.get("/get-pending-keynotes" , controller.getPendingKeynotes);
     router.put("/update-keynote/:id",controller.updateKeynote);
     router.delete("/delete-keynote/:id",controller.deleteKeynote);
+    router.get("/get-keynotes/:id",controller.getKeynoteByID);
 
     return router;
 }
