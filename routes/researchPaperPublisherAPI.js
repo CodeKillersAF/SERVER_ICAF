@@ -5,7 +5,7 @@ const ResearchPaperPublisherController = require('../controllers/researchPaperPu
 
 const ResearchPaperPublisherAPI = () => {
     router.post('/add-research-paper-publisher', ResearchPaperPublisherController.createResearchPaperPublisher);
-    //router.get('/get-approved-research-paper-publishers', ResearchPaperPublisherController.getResearchPaperPublisherApproved);
+    router.get('/get-approved-research-paper-publishers', ResearchPaperPublisherController.getResearchPaperPublisherApproved);
     return router;
 }
 
