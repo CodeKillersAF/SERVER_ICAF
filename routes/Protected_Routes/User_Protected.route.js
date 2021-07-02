@@ -6,6 +6,7 @@ const { getAllContacts } = require('../../controllers/contactUsController');
 
 const { userAuth, checkRole } = require('../../controllers/Auth.controller');
 const { updateRole, updateUserDetails, deleteUser, findUserByRole, findUser, getallUsers } = require('../../controllers/Edit_User/edit_user');
+const { createConferenceDetails, getConferenceDetails, updateAllDetails, updateStatus, removeConferenceDetail, getConferenceDetailByID } = require('../../controllers/conference-detail');
 
 //editor protected route
 router.get('/editor-protected', userAuth, checkRole(['editor']), async(req, res) => {
@@ -87,6 +88,30 @@ router.get('/get-attendees-not-approved', userAuth , checkRole(['admin', 'review
 
 router.put('/set-approval/:id', userAuth , checkRole(['admin', 'reviewer']), async(req,res) => {
     await setApproval(req,res);
+});
+
+router.post('/', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+    await createConferenceDetails(req,res);
+});
+
+router.get('/', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+    await getConferenceDetails(req,res);
+});
+
+router.put('/:id', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+    await updateAllDetails(req, req.params.id, res);
+});
+
+router.put('/update-status/:id', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+    await updateStatus(req, req.params.id, res);
+});
+
+router.delete('/:id', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+    await removeConferenceDetail(req, res);
+});
+
+router.get('/:id', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+    await getConferenceDetailByID(req, res);
 });
 
 module.exports = router;

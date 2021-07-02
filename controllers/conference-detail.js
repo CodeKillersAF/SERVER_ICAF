@@ -23,9 +23,9 @@ const getConferenceDetails = async (req, res) => {
         });
 }
 
-const updateStatus = async (req, res) => {
-    if (req.params.id && req.body) {
-        await ConferenceDetail.findByIdAndUpdate(req.params.id, {
+const updateStatus = async (req, id, res) => {
+    if (id && req.body) {
+        await ConferenceDetail.findByIdAndUpdate(id, {
             is_approved: req.body.is_approved
         })
             .then((data) => {
@@ -37,9 +37,9 @@ const updateStatus = async (req, res) => {
     }
 };
 
-const updateAllDetails = async (req, res) => {
-    if (req.params.id && req.body) {
-        await ConferenceDetail.findByIdAndUpdate(req.params.id, {
+const updateAllDetails = async (req, id, res) => {
+    if (id && req.body) {
+        await ConferenceDetail.findByIdAndUpdate(id, {
             venue: req.body.venue,
             venue_dates: req.body.venue_dates,
             venue_time: req.body.venue_time,
