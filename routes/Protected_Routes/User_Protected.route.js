@@ -7,6 +7,8 @@ const { getAllContacts } = require('../../controllers/contactUsController');
 const { userAuth, checkRole } = require('../../controllers/Auth.controller');
 const { updateRole, updateUserDetails, deleteUser, findUserByRole, findUser, getallUsers } = require('../../controllers/Edit_User/edit_user');
 const { createConferenceDetails, getConferenceDetails, updateAllDetails, updateStatus, removeConferenceDetail, getConferenceDetailByID } = require('../../controllers/conference-detail');
+const { addTemplate, getAllTemplate, getOneTemplate, updateTemplate, deleteTemplate } = require('../../controllers/Template/templatecontroller');
+
 
 //editor protected route
 router.get('/editor-protected', userAuth, checkRole(['editor']), async(req, res) => {
@@ -94,11 +96,11 @@ router.post('/', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
     await createConferenceDetails(req,res);
 });
 
-router.get('/', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+router.get('/conference/', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
     await getConferenceDetails(req,res);
 });
 
-router.put('/:id', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+router.put('/conference/:id', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
     await updateAllDetails(req, req.params.id, res);
 });
 
@@ -106,12 +108,33 @@ router.put('/update-status/:id', userAuth , checkRole(['admin', 'editor']), asyn
     await updateStatus(req, req.params.id, res);
 });
 
-router.delete('/:id', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+router.delete('/conference/:id', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
     await removeConferenceDetail(req, res);
 });
 
-router.get('/:id', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+router.get('/conference/:id', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
     await getConferenceDetailByID(req, res);
+});
+
+//template protected routes
+router.post('/create-template', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+    await addTemplate(req, res);
+});
+
+router.get('/templateAllBack', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+    await getAllTemplate(req, res);
+});
+
+router.get('/findtemplate/:id', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+    await getOneTemplate(req, res);
+});
+
+router.put('/template/update/:id', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+    await updateTemplate(req, req.params.id, res);
+});
+
+router.delete('/template/delete/:id', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+    await deleteTemplate(req, res);
 });
 
 module.exports = router;
