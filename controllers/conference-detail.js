@@ -1,4 +1,5 @@
 const ConferenceDetail = require('../models/conference-detail.model');
+const nodemailer = require('nodemailer');
 
 const createConferenceDetails = async (req, res) => {
     if (req.body) {
@@ -79,21 +80,38 @@ const getConferenceDetailByID = async (req, res) => {
             });
     }
 };
-// const getConferenceDetails = async (req, res) => {
-//     try {
-//         await ConferenceDetail.find({ is_approved: false })
-//             .then(data => {
-//                 res.status(200).send({ data: data });
-//             })
-//             .catch(error => {
-//                 res.status(500).send({ error: error.message });
-//             })
-//     } catch (error) {
-//         res.send({ error: error.message });
-//     }
 
-// }
-
+const sendMailConference = async (req,res) => {
+    try {
+           // console.log(data.email);
+            var transporter = nodemailer.createTransport({
+                host: 'smtp.gmail.com',
+                port: 587,
+                secure: false,
+                requireTLS: true,
+                auth: {
+                  user: 'sunshine4payments@gmail.com',
+                  pass: 'Sunshine1@AB'
+                }
+              });
+              var mailOptions = {
+                from: 'sunshine4payments@gmail.com',
+                to: "kawsinote@gmail.com",
+                subject: 'ICAF-Conference detail approval',
+                text: 'Text - Editor has updated conference detail. Waiting for you approval'
+              };
+  
+              transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                  console.log(error);
+                } else {
+                  console.log('Email sent: ' + info.response);
+                }
+              });
+    } catch (error) {
+        res.send({error: error.message});
+    }
+  }
 
 module.exports = {
     createConferenceDetails,
@@ -101,5 +119,6 @@ module.exports = {
     updateStatus,
     updateAllDetails,
     removeConferenceDetail,
-    getConferenceDetailByID
+    getConferenceDetailByID,
+    sendMailConference
 }
