@@ -1,4 +1,4 @@
-const keynote = require("../models/keynote.model");
+
 const Keynote = require("../models/keynote.model");
 
 const addKeynote = async (req, res) => {
@@ -11,9 +11,10 @@ const addKeynote = async (req, res) => {
           res.status(200).send({ data: data });
         })
         .catch((error) => {
-          res.status(500).send({ error: message });
+          res.status(500).send({ error: error.message });
         });
     }
+
   } catch (error) {
     res.send({ error: error });
   }
