@@ -8,7 +8,7 @@ const { userAuth, checkRole } = require('../../controllers/Auth.controller');
 const { updateRole, updateUserDetails, deleteUser, findUserByRole, findUser, getallUsers } = require('../../controllers/Edit_User/edit_user');
 const { createConferenceDetails, getConferenceDetails, updateAllDetails, updateStatus, removeConferenceDetail, getConferenceDetailByID } = require('../../controllers/conference-detail');
 const { addTemplate, getAllTemplate, getOneTemplate, updateTemplate, deleteTemplate } = require('../../controllers/Template/templatecontroller');
-
+const { addKeynote, getAllKeynotes, getApprovedKeynotes, getPendingKeynotes, updateKeynote, deleteKeynote, getKeynoteByID } = require('../../controllers/keynoteController');
 
 //editor protected route
 router.get('/editor-protected', userAuth, checkRole(['editor']), async(req, res) => {
@@ -158,5 +158,42 @@ router.delete('/template/delete/:id', userAuth , checkRole(['admin', 'editor']),
 });
 
 //---------------------------------------End template routes-----------------------------------------------------
+
+
+//---------------------------------------Start keynote routes----------------------------------------------------
+
+router.post('/keynote/add-keynote', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+    await addKeynote(req, res);
+});
+
+router.get('/keynote/get-keynotes', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+    await getAllKeynotes(req, res);
+});
+
+router.get('/keynote/get-approved-keynotes', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+    await getApprovedKeynotes(req, res);
+});
+
+router.get('/keynote/get-pending-keynotes', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+    await getPendingKeynotes(req, res);
+});
+
+router.put('/keynote/update-keynote/:id', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+    await updateKeynote(req, res);
+});
+
+router.put('/keynote/approve-keynote/:id', userAuth , checkRole(['admin']), async(req,res) => {
+    await updateKeynote(req, res);
+});
+
+router.delete('/keynote/delete-keynote/:id', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+    await deleteKeynote(req, res);
+});
+
+router.get('/keynote/get-keynotes/:id', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+    await getKeynoteByID(req, res);
+});
+
+//------------------------------------------End keynote routes---------------------------------------------------
 
 module.exports = router;
