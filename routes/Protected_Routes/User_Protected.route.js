@@ -5,8 +5,8 @@ const { getResearchPaperPublisherApproved } = require('../../controllers/researc
 const { getAllContacts } = require('../../controllers/contactUsController');
 
 const { userAuth, checkRole } = require('../../controllers/Auth.controller');
-const { updateRole, updateUserDetails, deleteUser, findUserByRole, findUser, getallUsers } = require('../../controllers/Edit_User/edit_user');
-const { createConferenceDetails, getConferenceDetails, updateAllDetails, updateStatus, removeConferenceDetail, getConferenceDetailByID } = require('../../controllers/conference-detail');
+const { updateRole, updateUserDetails, deleteUser, findUserByRole, findUser, getallUsers, sendMailUser } = require('../../controllers/Edit_User/edit_user');
+const { createConferenceDetails, getConferenceDetails, updateAllDetails, updateStatus, removeConferenceDetail, getConferenceDetailByID, sendMailConference } = require('../../controllers/conference-detail');
 const { addTemplate, getAllTemplate, getOneTemplate, updateTemplate, deleteTemplate } = require('../../controllers/Template/templatecontroller');
 const { addKeynote, getAllKeynotes, getApprovedKeynotes, getPendingKeynotes, updateKeynote, deleteKeynote, getKeynoteByID } = require('../../controllers/keynoteController');
 
@@ -72,6 +72,10 @@ router.get('/role_manage/getAll' , userAuth, checkRole(['admin']) , async(req, r
     await getallUsers(req, res);
 });
 
+router.post('/role_manage/send-email' , userAuth, checkRole(['admin']) , async(req, res) => {
+    await sendMailUser(req, res);
+});
+
 //--------------------------------------End role manage routes-------------------------------------------
 
 
@@ -128,6 +132,10 @@ router.delete('/conference/:id', userAuth , checkRole(['admin', 'editor']), asyn
 
 router.get('/conference/:id', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
     await getConferenceDetailByID(req, res);
+});
+
+router.post('/conference/send-email', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+    await sendMailConference(req, res);
 });
 
 //--------------------------------------------End conference-details routes----------------------------------------

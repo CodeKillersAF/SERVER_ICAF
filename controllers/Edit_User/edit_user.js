@@ -1,4 +1,5 @@
 const User = require('../../models/User.model');
+const nodemailer = require('nodemailer');
 
   //delete method
   const deleteUser = async (id, res) => {
@@ -82,11 +83,44 @@ const getallUsers = async(req, res) => {
    })
 }
 
+const sendMailUser = async (req,res) => {
+  try {
+         // console.log(data.email);
+          var transporter = nodemailer.createTransport({
+              host: 'smtp.gmail.com',
+              port: 587,
+              secure: false,
+              requireTLS: true,
+              auth: {
+                user: 'sunshine4payments@gmail.com',
+                pass: 'Sunshine1@AB'
+              }
+            });
+            var mailOptions = {
+              from: 'sunshine4payments@gmail.com',
+              to: req.body.email,
+              subject: 'ICAF',
+              text: 'You are promoted as ICAF page admin role...! \n Please contact -> 077-32432123'
+            };
+
+            transporter.sendMail(mailOptions, function(error, info){
+              if (error) {
+                console.log(error);
+              } else {
+                console.log('Email sent: ' + info.response);
+              }
+            });
+  } catch (error) {
+      res.send({error: error.message});
+  }
+}
+
   module.exports = {
       deleteUser,
       findUser,
       updateUserDetails,
       updateRole,
       findUserByRole,
-      getallUsers
+      getallUsers,
+      sendMailUser
   }
