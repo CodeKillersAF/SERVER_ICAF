@@ -1,4 +1,3 @@
-
 const Keynote = require("../models/keynote.model");
 
 const addKeynote = async (req, res) => {
@@ -81,6 +80,7 @@ const deleteKeynote = async (req, res) => {
     res.send({ error: error });
   }
 };
+
 const getApprovedKeynotes = async(req,res)=>{
   await Keynote.find({is_approved:true})
   .then((data)=>{
