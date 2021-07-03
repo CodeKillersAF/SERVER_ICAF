@@ -1,4 +1,5 @@
 const Keynote = require("../models/keynote.model");
+const nodemailer = require("nodemailer");
 
 const addKeynote = async (req, res) => {
   try {
@@ -13,7 +14,6 @@ const addKeynote = async (req, res) => {
           res.status(500).send({ error: error.message });
         });
     }
-
   } catch (error) {
     res.send({ error: error });
   }
@@ -26,31 +26,29 @@ const getAllKeynotes = async (req, res) => {
         res.status(200).send({ data: data });
       })
       .catch((error) => {
-        res.status(500).send({ error: error});
+        res.status(500).send({ error: error });
       });
   } catch (error) {
     res.send({ error: error });
   }
 };
 
-const getKeynoteByID = async(req,res)=>{
-  if(req.params.id){
+const getKeynoteByID = async (req, res) => {
+  if (req.params.id) {
     await Keynote.findById(req.params.id)
-    .then((data)=>{
-      res.status(200).send({data:data});
-    })
-    .catch((error)=>{
-      res.status(500).send({error:error})
-    })
+      .then((data) => {
+        res.status(200).send({ data: data });
+      })
+      .catch((error) => {
+        res.status(500).send({ error: error });
+      });
   }
- 
-}
+};
 
 const updateKeynote = async (req, res) => {
   try {
     if (req.body && req.params.id) {
-      await Keynote.findByIdAndUpdate(req.params.id, { $set : req.body
-      })
+      await Keynote.findByIdAndUpdate(req.params.id, { $set: req.body })
         .then((data) => {
           res.status(200).send({ data: data });
         })
@@ -68,12 +66,10 @@ const deleteKeynote = async (req, res) => {
     if (req.params.id) {
       await Keynote.findByIdAndDelete(req.params.id)
         .then((data) => {
-          res.status(200).send({ data: data, message:"Successfully deleted"});
+          res.status(200).send({ data: data, message: "Successfully deleted" });
         })
         .catch((error) => {
-          res
-            .status(500)
-            .send({ error: error, message: "Delete failed" });
+          res.status(500).send({ error: error, message: "Delete failed" });
         });
     }
   } catch (error) {
@@ -81,27 +77,52 @@ const deleteKeynote = async (req, res) => {
   }
 };
 
-const getApprovedKeynotes = async(req,res)=>{
-  await Keynote.find({is_approved:true})
-  .then((data)=>{
-    res.status(200).send({data:data});
-  })
-  .catch((error)=>{
-      res.status(500).send({error:error})
-  })
-}
+const getApprovedKeynotes = async (req, res) => {
+  await Keynote.find({ is_approved: true })
+    .then((data) => {
+      res.status(200).send({ data: data });
+    })
+    .catch((error) => {
+      res.status(500).send({ error: error });
+    });
+};
 
-const getPendingKeynotes = async(req,res)=>{
-  await Keynote.find({is_approved:false})
-  .then((data)=>{
-    res.status(200).send({data:data});
-  })
-  .catch((error)=>{
-      res.status(500).send({error:error})
-  })
-}
+const getPendingKeynotes = async (req, res) => {
+  await Keynote.find({ is_approved: false })
+    .then((data) => {
+      res.status(200).send({ data: data });
+    })
+    .catch((error) => {
+      res.status(500).send({ error: error });
+    });
+};
 
-
+const sendEmailToAdmin = async (req, res) => {
+  try {
+    var transporter = await nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      requireTLS: true,
+      auth: { user: "sunshine4payments@gmail.com", pass: "Sunshine1@AB" },
+    });
+    var mailOptions = {
+      from: "sunshine4payments@gmail.com",
+      to: "tharushadilmith99@gmail.com",
+      subject: "ICAF",
+      text: "You have new keynote to approve!",
+    };
+    await transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        res.status(200).send({ message: "Email sent" });
+      }
+    });
+  } catch (error) {
+    res.send({ error: error.message });
+  }
+};
 
 module.exports = {
   deleteKeynote,
@@ -110,5 +131,6 @@ module.exports = {
   addKeynote,
   getApprovedKeynotes,
   getPendingKeynotes,
-  getKeynoteByID
+  getKeynoteByID,
+  sendEmailToAdmin,
 };
