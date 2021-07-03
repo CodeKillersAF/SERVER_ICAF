@@ -46,27 +46,37 @@ router.put('/update/role/:id' , userAuth , checkRole(['admin']) , async(req, res
     await updateRole(req, req.params.id, res);
 });
 
+//---------------------------------------------End check routes-----------------------------------------
+
+
+//---------------------------------------------Start admin role routes----------------------------------
+
 //update details of them
-router.put('/update/:id' , userAuth , checkRole(['admin']) , async(req, res) => {
+router.put('role_manage/update/:id' , userAuth , checkRole(['admin']) , async(req, res) => {
     await updateUserDetails(req.body, req.params.id, res);
 });
 
 //update role type admin
-router.delete('/delete/:id' , userAuth , checkRole(['admin']) , async(req, res) => {
+router.delete('role_manage/delete/:id' , userAuth , checkRole(['admin']) , async(req, res) => {
     await deleteUser(req.params.id, res);
 });
 
-router.get('/getRole/:name' , userAuth , checkRole(['admin']) , async(req, res) => {
+router.get('role_manage/getRole/:name' , userAuth , checkRole(['admin']) , async(req, res) => {
     await findUserByRole(req.params.name, res);
 });
 
-router.get('/finduser/:id' , userAuth, checkRole(['admin']) , async(req, res) => {
+router.get('role_manage/finduser/:id' , userAuth, checkRole(['admin']) , async(req, res) => {
     await findUser(req.params.id, res);
 });
 
-router.get('/getAll' , userAuth, checkRole(['admin']) , async(req, res) => {
+router.get('role_manage/getAll' , userAuth, checkRole(['admin']) , async(req, res) => {
     await getallUsers(req, res);
 });
+
+//--------------------------------------End role manage routes-------------------------------------------
+
+
+//--------------------------------------Start atendee routes---------------------------------------------
 
 router.get('/get-attendees-is-approved' , userAuth, checkRole(['admin', 'editor']), async(req, res) => {
     await getAttendeesApproved(req.body, res);
@@ -92,11 +102,16 @@ router.put('/set-approval/:id', userAuth , checkRole(['admin', 'reviewer']), asy
     await setApproval(req,res);
 });
 
-router.post('/', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+//------------------------------------------------End atendee routes----------------------------------------------
+
+
+//------------------------------------------------Start conference-details routes----------------------------------
+
+router.post('/conference', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
     await createConferenceDetails(req,res);
 });
 
-router.get('/conference/', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+router.get('/conference', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
     await getConferenceDetails(req,res);
 });
 
@@ -104,7 +119,7 @@ router.put('/conference/:id', userAuth , checkRole(['admin', 'editor']), async(r
     await updateAllDetails(req, req.params.id, res);
 });
 
-router.put('/update-status/:id', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+router.put('/conference/update-status/:id', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
     await updateStatus(req, req.params.id, res);
 });
 
@@ -116,16 +131,21 @@ router.get('/conference/:id', userAuth , checkRole(['admin', 'editor']), async(r
     await getConferenceDetailByID(req, res);
 });
 
+//--------------------------------------------End conference-details routes----------------------------------------
+
+
+//-------------------------------------Start template routes------------------------------------------------------
+
 //template protected routes
-router.post('/create-template', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+router.post('/template/create-template', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
     await addTemplate(req, res);
 });
 
-router.get('/templateAllBack', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+router.get('/template/templateAllBack', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
     await getAllTemplate(req, res);
 });
 
-router.get('/findtemplate/:id', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+router.get('/template/findtemplate/:id', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
     await getOneTemplate(req, res);
 });
 
@@ -136,5 +156,7 @@ router.put('/template/update/:id', userAuth , checkRole(['admin', 'editor']), as
 router.delete('/template/delete/:id', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
     await deleteTemplate(req, res);
 });
+
+//---------------------------------------End template routes-----------------------------------------------------
 
 module.exports = router;
