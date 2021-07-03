@@ -1,4 +1,3 @@
-const keynote = require("../models/keynote.model");
 const Keynote = require("../models/keynote.model");
 
 const addKeynote = async (req, res) => {
