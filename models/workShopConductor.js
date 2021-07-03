@@ -6,7 +6,7 @@ const WorkShopConductorSchema = new mongoose.Schema({
     phone: {type:String, required:true, unique:true},
     email:{type:String, required:true, unique:true},
     praposal_url:{type:String, required:false},
-    is_approved: {type:Boolean, required:true}
+    is_approved: {type:Boolean, required:true, default:false}
 });
 
 const WorkShopConductor = mongoose.model('work_shop_conductor', WorkShopConductorSchema);

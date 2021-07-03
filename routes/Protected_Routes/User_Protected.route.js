@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { getAttendeesApproved, getAllAttendess, setApproval } = require('../../controllers/attendeeController');
-const { getAllWorkShopConductoresApproved } = require('../../controllers/workShopConductorController');
+const { getAllWorkShopConductoresNotApproved , setWorkShopConductorAsApproved } = require('../../controllers/workShopConductorController');
 const { getResearchPaperPublisherApproved } = require('../../controllers/researchPaperPublisher');
 const { getAllContacts } = require('../../controllers/contactUsController');
 
@@ -69,13 +69,17 @@ router.get('/get-attendees-is-approved' , userAuth, checkRole(['admin', 'editor'
     await getAttendeesApproved(req.body, res);
 });
 
-router.get('/get-all-approved-work-shop-conductors' , userAuth , checkRole(['admin', 'editor']), async(req, res) => {
-    await getAllWorkShopConductoresApproved(req.body, res);
+router.get('/get-all-not-approved-work-shop-conductors' , userAuth , checkRole(['admin', 'editor']), async(req, res) => {
+    await getAllWorkShopConductoresNotApproved(req.body, res);
 });
 
-// router.get('/get-approved-research-paper-publishers' , userAuth , checkRole(['admin', 'editor']), async(req, res) => {
-//     await getResearchPaperPublisherApproved(req.body, res);
-// });
+router.put('/set-work-shop-conductor-approved/:id' , userAuth , checkRole(['admin', 'reviewer']), async(req, res) => {
+    await setWorkShopConductorAsApproved(req, res);
+});
+
+router.get('/get-approved-research-paper-publishers' , userAuth , checkRole(['admin', 'editor']), async(req, res) => {
+    await getResearchPaperPublisherApproved(req.body, res);
+});
 
 router.get('/get-all-contacts', userAuth , checkRole(['admin']), async(req,res) => {
     await getAllContacts(req,res);
@@ -88,5 +92,6 @@ router.get('/get-attendees-not-approved', userAuth , checkRole(['admin', 'review
 router.put('/set-approval/:id', userAuth , checkRole(['admin', 'reviewer']), async(req,res) => {
     await setApproval(req,res);
 });
+
 
 module.exports = router;
