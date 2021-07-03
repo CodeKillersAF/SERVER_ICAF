@@ -40,16 +40,15 @@ router.get('/admin&reviewer&editor-protected', userAuth, checkRole(['admin', 're
     return res.send("Hello Admin and Reviewer and Editor");
 });
 
-
-//update role type admin
-router.put('/update/role/:id' , userAuth , checkRole(['admin']) , async(req, res) => {
-    await updateRole(req, req.params.id, res);
-});
-
 //---------------------------------------------End check routes-----------------------------------------
 
 
 //---------------------------------------------Start admin role routes----------------------------------
+
+//update role type admin
+router.put('/role_manage/update/role/:id' , userAuth , checkRole(['admin']) , async(req, res) => {
+    await updateRole(req, req.params.id, res);
+});
 
 //update details of them
 router.put('/role_manage/update/:id' , userAuth , checkRole(['admin']) , async(req, res) => {
