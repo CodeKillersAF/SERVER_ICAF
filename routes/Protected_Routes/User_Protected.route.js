@@ -9,7 +9,7 @@ const { userAuth, checkRole } = require('../../controllers/Auth.controller');
 const { updateRole, updateUserDetails, deleteUser, findUserByRole, findUser, getallUsers, sendMailUser } = require('../../controllers/Edit_User/edit_user');
 const { createConferenceDetails, getConferenceDetails, updateAllDetails, updateStatus, removeConferenceDetail, getConferenceDetailByID, sendMailConference } = require('../../controllers/conference-detail');
 const { addTemplate, getAllTemplate, getOneTemplate, updateTemplate, deleteTemplate } = require('../../controllers/Template/templatecontroller');
-const { addKeynote, getAllKeynotes, getApprovedKeynotes, getPendingKeynotes, updateKeynote, deleteKeynote, getKeynoteByID, sendEmailToAdmin,countKeynotes } = require('../../controllers/keynoteController');
+const { addKeynote, getAllKeynotes, getApprovedKeynotes, getPendingKeynotes, updateKeynote, deleteKeynote, getKeynoteByID,  sendEmailToAdmin, countKeynotes } = require('../../controllers/keynoteController');
 
 
 //editor protected route
@@ -355,6 +355,7 @@ router.get(
 );
 
 router.post(
+
   "/keynote/send-mail",
   userAuth,
   checkRole(["admin", "editor"]),
@@ -364,13 +365,14 @@ router.post(
 );
 
 router.get(
-  "/keynote/count-keynotes",
-  userAuth,
-  checkRole(["admin", "editor"]),
-  async (req, res) => {
-    await countKeynotes(req, res);
-  }
-);
+
+    "/keynote/count-keynotes",
+    userAuth,
+    checkRole(["admin", "editor"]),
+    async (req, res) => {
+      await countKeynotes(req, res);
+    }
+  );
 
 //------------------------------------------End keynote routes---------------------------------------------------
 
