@@ -54,6 +54,11 @@ app.use('/api/users', require('./routes/Protected_Routes/User_Protected.route'))
 app.use('/api/users', require('./routes/Register_Routes/User_Register.route'));
 app.use('/api/conference-detail',ConferenceDetailAPI());
 
+module.exports = app;
+
+app.route('/').get((req, res) => {
+    res.send('2019 Paper');
+});
 
 app.listen(PORT, ()=>{
     console.log(`App is running on port : ${PORT}`);
