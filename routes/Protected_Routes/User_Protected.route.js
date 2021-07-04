@@ -4,7 +4,7 @@ const { getAttendeesApproved, getAllAttendess, setApproval , sendEmailToApproved
 const { getAllWorkShopConductoresNotApproved , setWorkShopConductorAsApproved , sendEmailToApprovedConductor , countApprovedWorkShops , deleteOneWorkShopConductor} = require('../../controllers/workShopConductorController');
 const { getResearchPaperPublisherApproved , setResearchPaperAsApproved , sendEmailToApprovedResearchPapers , countApprovedResearchPapers , deleteOnePublisher} = require('../../controllers/researchPaperPublisher');
 const { getAllContacts } = require('../../controllers/contactUsController');
-const { updateRole, updateUserDetails, deleteUser, findUserByRole, findUser, getallUsers, sendMailUser } = require('../../controllers/Edit_User/edit_user');
+const { updateRole, updateUserDetails, deleteUser, findUserByRole, findUser, getallUsers, sendMailUser, countUsers } = require('../../controllers/Edit_User/edit_user');
 const { createConferenceDetails, getConferenceDetails, updateAllDetails, updateStatus, removeConferenceDetail, getConferenceDetailByID, sendMailConference } = require('../../controllers/conference-detail');
 const { addKeynote, getAllKeynotes, getApprovedKeynotes, getPendingKeynotes, updateKeynote, deleteKeynote, getKeynoteByID,  sendEmailToAdmin, countKeynotes } = require('../../controllers/keynoteController');
 const { addTemplate, getAllTemplate, getOneTemplate, updateTemplate, deleteTemplate, countTemplates } = require('../../controllers/Template/templatecontroller');
@@ -74,6 +74,10 @@ router.get('/role_manage/getAll' , userAuth, checkRole(['admin']) , async(req, r
 
 router.post('/role_manage/send-email' , userAuth, checkRole(['admin']) , async(req, res) => {
     await sendMailUser(req, res);
+});
+
+router.get('/role_manage/countuser' , userAuth, checkRole(['admin']) , async(req, res) => {
+    await countUsers(req, res);
 });
 
 //--------------------------------------End role manage routes-------------------------------------------
