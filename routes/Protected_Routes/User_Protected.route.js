@@ -193,8 +193,7 @@ router.get(
     checkRole(["admin", "editor"]),
     async (req, res) => {
       await countKeynotes(req, res);
-    }
-);
+    });
 
 
 //------------------------------------------End keynote routes---------------------------------------------------
