@@ -1,52 +1,16 @@
-const router = require("express").Router();
-const {
-  getAttendeesApproved,
-  getAllAttendess,
-  setApproval,
-} = require("../../controllers/attendeeController");
-const {
-  getAllWorkShopConductoresApproved,
-} = require("../../controllers/workShopConductorController");
-const {
-  getResearchPaperPublisherApproved,
-} = require("../../controllers/researchPaperPublisher");
-const { getAllContacts } = require("../../controllers/contactUsController");
 
-const { userAuth, checkRole } = require("../../controllers/Auth.controller");
-const {
-  updateRole,
-  updateUserDetails,
-  deleteUser,
-  findUserByRole,
-  findUser,
-  getallUsers,
-} = require("../../controllers/Edit_User/edit_user");
-const {
-  createConferenceDetails,
-  getConferenceDetails,
-  updateAllDetails,
-  updateStatus,
-  removeConferenceDetail,
-  getConferenceDetailByID,
-} = require("../../controllers/conference-detail");
-const {
-  addTemplate,
-  getAllTemplate,
-  getOneTemplate,
-  updateTemplate,
-  deleteTemplate,
-} = require("../../controllers/Template/templatecontroller");
-const {
-  addKeynote,
-  getAllKeynotes,
-  getApprovedKeynotes,
-  getPendingKeynotes,
-  updateKeynote,
-  deleteKeynote,
-  getKeynoteByID,
-  sendEmailToAdmin,
-  countKeynotes
-} = require("../../controllers/keynoteController");
+const router = require('express').Router();
+const { getAttendeesApproved, getAllAttendess, setApproval } = require('../../controllers/attendeeController');
+const { getAllWorkShopConductoresApproved } = require('../../controllers/workShopConductorController');
+const { getResearchPaperPublisherApproved } = require('../../controllers/researchPaperPublisher');
+const { getAllContacts } = require('../../controllers/contactUsController');
+
+const { userAuth, checkRole } = require('../../controllers/Auth.controller');
+const { updateRole, updateUserDetails, deleteUser, findUserByRole, findUser, getallUsers, sendMailUser } = require('../../controllers/Edit_User/edit_user');
+const { createConferenceDetails, getConferenceDetails, updateAllDetails, updateStatus, removeConferenceDetail, getConferenceDetailByID, sendMailConference } = require('../../controllers/conference-detail');
+const { addTemplate, getAllTemplate, getOneTemplate, updateTemplate, deleteTemplate } = require('../../controllers/Template/templatecontroller');
+const { addKeynote, getAllKeynotes, getApprovedKeynotes, getPendingKeynotes, updateKeynote, deleteKeynote, getKeynoteByID, sendEmailToAdmin,countKeynotes } = require('../../controllers/keynoteController');
+
 
 //editor protected route
 router.get(
@@ -144,6 +108,10 @@ router.get('/role_manage/getAll' , userAuth, checkRole(['admin']) , async(req, r
     await getallUsers(req, res);
   }
 );
+
+router.post('/role_manage/send-email' , userAuth, checkRole(['admin']) , async(req, res) => {
+    await sendMailUser(req, res);
+});
 
 //--------------------------------------End role manage routes-------------------------------------------
 
@@ -255,6 +223,10 @@ router.get(
     await getConferenceDetailByID(req, res);
   }
 );
+
+router.post('/conference/send-email', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
+    await sendMailConference(req, res);
+});
 
 //--------------------------------------------End conference-details routes----------------------------------------
 
