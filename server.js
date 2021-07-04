@@ -43,6 +43,8 @@ mongoose.connection.once('open', ()=>{
     console.log('Database connected successfully');
 });
 
+app.get("/", (req, res) => res.status(200).send("ICAF"));
+
 app.use('/api/keynotes',KeynoteAPI());
 app.use('/api/attendee', AttendeeAPI());
 app.use('/api/work-shop-conductor', WorkShopConductorAPI());
