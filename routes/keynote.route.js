@@ -10,7 +10,8 @@ const KeynoteAPI = ()=>{
     //router.put("/update-keynote/:id",controller.updateKeynote);
     //router.delete("/delete-keynote/:id",controller.deleteKeynote);
     //router.get("/get-keynotes/:id",controller.getKeynoteByID);
-    router.post("/keynote/send-mail", controller.sendEmailToAdmin);
+    // router.post("/keynote/send-mail", controller.sendEmailToAdmin);
+    // router.get("/keynote/count-keynotes", controller.countKeynotes);
 
     return router;
 }

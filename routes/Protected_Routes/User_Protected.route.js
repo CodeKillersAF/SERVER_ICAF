@@ -1,3 +1,4 @@
+
 const router = require('express').Router();
 const { getAttendeesApproved, getAllAttendess, setApproval } = require('../../controllers/attendeeController');
 const { getAllWorkShopConductoresApproved } = require('../../controllers/workShopConductorController');
@@ -8,7 +9,8 @@ const { userAuth, checkRole } = require('../../controllers/Auth.controller');
 const { updateRole, updateUserDetails, deleteUser, findUserByRole, findUser, getallUsers, sendMailUser } = require('../../controllers/Edit_User/edit_user');
 const { createConferenceDetails, getConferenceDetails, updateAllDetails, updateStatus, removeConferenceDetail, getConferenceDetailByID, sendMailConference } = require('../../controllers/conference-detail');
 const { addTemplate, getAllTemplate, getOneTemplate, updateTemplate, deleteTemplate } = require('../../controllers/Template/templatecontroller');
-const { addKeynote, getAllKeynotes, getApprovedKeynotes, getPendingKeynotes, updateKeynote, deleteKeynote, getKeynoteByID, sendEmailToAdmin } = require('../../controllers/keynoteController');
+const { addKeynote, getAllKeynotes, getApprovedKeynotes, getPendingKeynotes, updateKeynote, deleteKeynote, getKeynoteByID, sendEmailToAdmin,countKeynotes } = require('../../controllers/keynoteController');
+
 
 //editor protected route
 router.get(
@@ -358,6 +360,15 @@ router.post(
   checkRole(["admin", "editor"]),
   async (req, res) => {
     await sendEmailToAdmin(req, res);
+  }
+);
+
+router.get(
+  "/keynote/count-keynotes",
+  userAuth,
+  checkRole(["admin", "editor"]),
+  async (req, res) => {
+    await countKeynotes(req, res);
   }
 );
 
