@@ -1,6 +1,7 @@
 const Keynote = require("../models/keynote.model");
 const nodemailer = require("nodemailer");
 
+//add a new keynote
 const addKeynote = async (req, res) => {
   try {
     if (req.body) {
@@ -19,6 +20,7 @@ const addKeynote = async (req, res) => {
   }
 };
 
+//get all keynotes
 const getAllKeynotes = async (req, res) => {
   try {
     await Keynote.find()
@@ -33,6 +35,24 @@ const getAllKeynotes = async (req, res) => {
   }
 };
 
+//count keynotes
+const countKeynotes = async (req, res) => {
+  try {
+    let keynoteCount =0;
+    await Keynote.find({ is_approved: false })
+      .then((data) => {
+        keynoteCount = data.length;
+        res.status(200).send({ count: keynoteCount });
+      })
+      .catch((error) => {
+        res.status(500).send({ error: error });
+      });
+  } catch (error) {
+    res.send({ error: error });
+  }
+};
+
+//get keynote using id
 const getKeynoteByID = async (req, res) => {
   if (req.params.id) {
     await Keynote.findById(req.params.id)
@@ -45,6 +65,7 @@ const getKeynoteByID = async (req, res) => {
   }
 };
 
+//update a keynote
 const updateKeynote = async (req, res) => {
   try {
     if (req.body && req.params.id) {
@@ -61,6 +82,7 @@ const updateKeynote = async (req, res) => {
   }
 };
 
+//delete a keynote
 const deleteKeynote = async (req, res) => {
   try {
     if (req.params.id) {
@@ -77,6 +99,7 @@ const deleteKeynote = async (req, res) => {
   }
 };
 
+//get approved keynotes
 const getApprovedKeynotes = async (req, res) => {
   await Keynote.find({ is_approved: true })
     .then((data) => {
@@ -87,6 +110,7 @@ const getApprovedKeynotes = async (req, res) => {
     });
 };
 
+//get pending keynotes
 const getPendingKeynotes = async (req, res) => {
   await Keynote.find({ is_approved: false })
     .then((data) => {
@@ -97,6 +121,7 @@ const getPendingKeynotes = async (req, res) => {
     });
 };
 
+//send an email to admin
 const sendEmailToAdmin = async (req, res) => {
   try {
     var transporter = await nodemailer.createTransport({
@@ -133,4 +158,5 @@ module.exports = {
   getPendingKeynotes,
   getKeynoteByID,
   sendEmailToAdmin,
+  countKeynotes
 };

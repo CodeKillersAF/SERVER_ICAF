@@ -5,8 +5,8 @@ const ResearchPaperPublisherSchema = new mongoose.Schema({
     last_name: {type:String, required:true},
     email: {type:String, required:true, unique:true},
     phone: {type:String, required:true, unique:true},
-    researchPaper_url: {type:String, required:false},
-    is_approved: {type: Boolean, required: true},
+    researchPaper_url: {type:String, required:false },
+    is_approved: {type: Boolean, required: false, default:false},
 });
 
 const ResearchPaperPublisher = mongoose.model('research_paper_publishers', ResearchPaperPublisherSchema);
