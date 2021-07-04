@@ -7,7 +7,9 @@ const AttendeeAPI = require('./routes/attendeeAPI');
 const KeynoteAPI = require("./routes/keynote.route");
 const WorkShopConductorAPI = require('./routes/workShopConductorAPI');
 const ResearchPaperPublisherAPI = require('./routes/researchPaperPublisherAPI');
+const ConferenceDetailAPI = require('./routes/conference-detail.api');
 const ContactUsAPI = require('./routes/contactUsAPI');
+const TemplateAPI = require('./routes/template.api');
 const passport = require('passport');
 
 
@@ -46,9 +48,11 @@ app.use('/api/attendee', AttendeeAPI());
 app.use('/api/work-shop-conductor', WorkShopConductorAPI());
 app.use('/api/research-paper-publisher',ResearchPaperPublisherAPI());
 app.use('/api/contact-us', ContactUsAPI());
+app.use('/api/template', TemplateAPI());
 app.use('/api/users', require('./routes/Login_Routes/User_login.route'));
 app.use('/api/users', require('./routes/Protected_Routes/User_Protected.route'));
 app.use('/api/users', require('./routes/Register_Routes/User_Register.route'));
+app.use('/api/conference-detail',ConferenceDetailAPI());
 
 
 app.listen(PORT, ()=>{
