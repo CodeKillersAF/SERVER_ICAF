@@ -108,63 +108,39 @@ router.get(
   }
 );
 
-//update role type admin
-router.put(
-  "/update/role/:id",
-  userAuth,
-  checkRole(["admin"]),
-  async (req, res) => {
-    await updateRole(req, req.params.id, res);
-  }
-);
+
 
 //---------------------------------------------End check routes-----------------------------------------
 
 //---------------------------------------------Start admin role routes----------------------------------
 
+//update role type admin
+router.put('/role_manage/update/role/:id' , userAuth , checkRole(['admin']) , async(req, res) => {
+    await updateRole(req, req.params.id, res);
+});
+
 //update details of them
-router.put(
-  "role_manage/update/:id",
-  userAuth,
-  checkRole(["admin"]),
-  async (req, res) => {
+
+router.put('/role_manage/update/:id' , userAuth , checkRole(['admin']) , async(req, res) => {
     await updateUserDetails(req.body, req.params.id, res);
   }
 );
 
 //update role type admin
-router.delete(
-  "role_manage/delete/:id",
-  userAuth,
-  checkRole(["admin"]),
-  async (req, res) => {
+
+router.delete('/role_manage/delete/:id' , userAuth , checkRole(['admin']) , async(req, res) => {
     await deleteUser(req.params.id, res);
-  }
-);
+});
 
-router.get(
-  "role_manage/getRole/:name",
-  userAuth,
-  checkRole(["admin"]),
-  async (req, res) => {
+router.get('/role_manage/getRole/:name' , userAuth , checkRole(['admin']) , async(req, res) => {
     await findUserByRole(req.params.name, res);
-  }
-);
+});
 
-router.get(
-  "role_manage/finduser/:id",
-  userAuth,
-  checkRole(["admin"]),
-  async (req, res) => {
+router.get('/role_manage/finduser/:id' , userAuth, checkRole(['admin']) , async(req, res) => {
     await findUser(req.params.id, res);
-  }
-);
+});
 
-router.get(
-  "role_manage/getAll",
-  userAuth,
-  checkRole(["admin"]),
-  async (req, res) => {
+router.get('/role_manage/getAll' , userAuth, checkRole(['admin']) , async(req, res) => {
     await getallUsers(req, res);
   }
 );
