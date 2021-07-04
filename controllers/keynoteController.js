@@ -39,7 +39,7 @@ const getAllKeynotes = async (req, res) => {
 const countKeynotes = async (req, res) => {
   try {
     let keynoteCount =0;
-    await Keynote.find()
+    await Keynote.find({ is_approved: false })
       .then((data) => {
         keynoteCount = data.length;
         res.status(200).send({ count: keynoteCount });
