@@ -194,8 +194,7 @@ router.get(
     async (req, res) => {
       await countKeynotes(req, res);
     }
-  );
-});
+);
 
 
 //------------------------------------------End keynote routes---------------------------------------------------
