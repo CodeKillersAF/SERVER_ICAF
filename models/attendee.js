@@ -6,7 +6,7 @@ const AttendeeSchema = new mongoose.Schema({
     phone: {type:String, required:true, unique:true},
     email: {type:String, required:true, unique:true},
     date: {type:Date, default:Date.now },
-    is_approved: {type:Boolean, default:false, required:true},
+    is_approved: {type:Boolean, default:false, required:false},
     bank_slip_url: {type:String, required:false}
 
 });
