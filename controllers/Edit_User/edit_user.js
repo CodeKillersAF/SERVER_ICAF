@@ -115,6 +115,16 @@ const sendMailUser = async (req,res) => {
   }
 }
 
+const countUsers = async(req, res) => {
+  await User.find({  })
+   .then((data) => {
+     res.status(200).send({ data: data.length })
+   })
+   .catch((error) => {
+    res.status(500).send({ error: error.message })
+   })
+}
+
   module.exports = {
       deleteUser,
       findUser,
@@ -123,4 +133,5 @@ const sendMailUser = async (req,res) => {
       findUserByRole,
       getallUsers,
       sendMailUser,
+      countUsers
   }
