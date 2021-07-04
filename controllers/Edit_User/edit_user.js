@@ -122,5 +122,5 @@ const sendMailUser = async (req,res) => {
       updateRole,
       findUserByRole,
       getallUsers,
-      sendMailUser
+      sendMailUser,
   }

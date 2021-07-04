@@ -6,8 +6,9 @@ const { getResearchPaperPublisherApproved , setResearchPaperAsApproved , sendEma
 const { getAllContacts } = require('../../controllers/contactUsController');
 const { updateRole, updateUserDetails, deleteUser, findUserByRole, findUser, getallUsers, sendMailUser } = require('../../controllers/Edit_User/edit_user');
 const { createConferenceDetails, getConferenceDetails, updateAllDetails, updateStatus, removeConferenceDetail, getConferenceDetailByID, sendMailConference } = require('../../controllers/conference-detail');
-const { addTemplate, getAllTemplate, getOneTemplate, updateTemplate, deleteTemplate } = require('../../controllers/Template/templatecontroller');
-const { addKeynote, getAllKeynotes, getApprovedKeynotes, getPendingKeynotes, updateKeynote, deleteKeynote, getKeynoteByID } = require('../../controllers/keynoteController');
+const { addKeynote, getAllKeynotes, getApprovedKeynotes, getPendingKeynotes, updateKeynote, deleteKeynote, getKeynoteByID,  sendEmailToAdmin, countKeynotes } = require('../../controllers/keynoteController');
+const { addTemplate, getAllTemplate, getOneTemplate, updateTemplate, deleteTemplate, countTemplates } = require('../../controllers/Template/templatecontroller');
+
 
 //editor protected route
 router.get('/editor-protected', userAuth, checkRole(['editor']), async(req, res) => {
@@ -133,6 +134,10 @@ router.delete('/template/delete/:id', userAuth , checkRole(['admin', 'editor']),
     await deleteTemplate(req, res);
 });
 
+router.get('/template/calculate', userAuth , checkRole(['admin', 'reviewer', 'editor']), async(req, res) => {
+    await countTemplates(req, res);
+});
+
 //---------------------------------------End template routes-----------------------------------------------------
 
 
@@ -168,7 +173,28 @@ router.delete('/keynote/delete-keynote/:id', userAuth , checkRole(['admin', 'edi
 
 router.get('/keynote/get-keynotes/:id', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
     await getKeynoteByID(req, res);
-});
+
+  }
+);
+
+router.post(
+  "/keynote/send-mail",
+  userAuth,
+  checkRole(["admin", "editor"]),
+  async (req, res) => {
+    await sendEmailToAdmin(req, res);
+  }
+);
+
+router.get(
+
+    "/keynote/count-keynotes",
+    userAuth,
+    checkRole(["admin", "editor"]),
+    async (req, res) => {
+      await countKeynotes(req, res);
+    });
+
 
 //------------------------------------------End keynote routes---------------------------------------------------
 
@@ -181,7 +207,7 @@ router.get('/send-email-to-approved-attendee/:id' , userAuth , checkRole(['admin
     await sendEmailToApprovedAttendee(req, res);
 });
 
-router.get('/get-approved-attendee-count', userAuth , checkRole(['admin' , 'reviewer']), async(req,res) => {
+router.get('/get-approved-attendee-count', userAuth , checkRole(['admin' , 'editor', 'reviewer']), async(req,res) => {
     await countApprovedAttendees(req,res);
 });
 
@@ -217,7 +243,7 @@ router.delete('/delete-work-shops/:id', userAuth , checkRole(['admin' , 'reviewe
     await deleteOneWorkShopConductor(req,res);
 });
 
-router.get('/get-approved-work-shops-count', userAuth , checkRole(['admin' , 'reviewer']), async(req,res) => {
+router.get('/get-approved-work-shops-count', userAuth , checkRole(['admin' , 'editor', 'reviewer']), async(req,res) => {
     await countApprovedWorkShops(req,res);
 });
 
@@ -236,7 +262,7 @@ router.put('/set-research-paper-approved/:id' , userAuth , checkRole(['admin', '
     await setResearchPaperAsApproved(req, res);
 });
 
-router.get('/get-approved-research-count', userAuth , checkRole(['admin' , 'reviewer']), async(req,res) => {
+router.get('/get-approved-research-count', userAuth , checkRole(['admin' , 'editor', 'reviewer']), async(req,res) => {
     await countApprovedResearchPapers(req,res);
 });
 
