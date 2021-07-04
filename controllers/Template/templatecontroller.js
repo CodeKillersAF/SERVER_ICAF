@@ -80,10 +80,21 @@ const getOneTemplate = async(req,res)=>{
     }
   };
 
+  const countTemplates = async(req, res) => {
+    await Template.find({  })
+     .then((data) => {
+       res.status(200).send({ data: data.length })
+     })
+     .catch((error) => {
+      res.status(500).send({ error: error.message })
+     })
+  }
+
   module.exports = {
     addTemplate,
     getAllTemplate,
     getOneTemplate,
     updateTemplate,
-    deleteTemplate
+    deleteTemplate,
+    countTemplates
   }
