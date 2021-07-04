@@ -7,7 +7,7 @@ const { getAllContacts } = require('../../controllers/contactUsController');
 const { userAuth, checkRole } = require('../../controllers/Auth.controller');
 const { updateRole, updateUserDetails, deleteUser, findUserByRole, findUser, getallUsers, sendMailUser } = require('../../controllers/Edit_User/edit_user');
 const { createConferenceDetails, getConferenceDetails, updateAllDetails, updateStatus, removeConferenceDetail, getConferenceDetailByID, sendMailConference } = require('../../controllers/conference-detail');
-const { addTemplate, getAllTemplate, getOneTemplate, updateTemplate, deleteTemplate } = require('../../controllers/Template/templatecontroller');
+const { addTemplate, getAllTemplate, getOneTemplate, updateTemplate, deleteTemplate, countTemplates } = require('../../controllers/Template/templatecontroller');
 const { addKeynote, getAllKeynotes, getApprovedKeynotes, getPendingKeynotes, updateKeynote, deleteKeynote, getKeynoteByID } = require('../../controllers/keynoteController');
 
 //editor protected route
@@ -163,6 +163,10 @@ router.put('/template/update/:id', userAuth , checkRole(['admin', 'editor']), as
 router.delete('/template/delete/:id', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
     await deleteTemplate(req, res);
 });
+
+router.get('/template/calculate', userAuth , checkRole(['admin', 'reviewer', 'editor']), async(req, res) => {
+    await countTemplates(req, res);
+})
 
 //---------------------------------------End template routes-----------------------------------------------------
 
