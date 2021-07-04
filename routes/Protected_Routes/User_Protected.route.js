@@ -6,8 +6,9 @@ const { getResearchPaperPublisherApproved , setResearchPaperAsApproved , sendEma
 const { getAllContacts } = require('../../controllers/contactUsController');
 const { updateRole, updateUserDetails, deleteUser, findUserByRole, findUser, getallUsers, sendMailUser } = require('../../controllers/Edit_User/edit_user');
 const { createConferenceDetails, getConferenceDetails, updateAllDetails, updateStatus, removeConferenceDetail, getConferenceDetailByID, sendMailConference } = require('../../controllers/conference-detail');
+const { addKeynote, getAllKeynotes, getApprovedKeynotes, getPendingKeynotes, updateKeynote, deleteKeynote, getKeynoteByID,  sendEmailToAdmin, countKeynotes } = require('../../controllers/keynoteController');
 const { addTemplate, getAllTemplate, getOneTemplate, updateTemplate, deleteTemplate, countTemplates } = require('../../controllers/Template/templatecontroller');
-const { addKeynote, getAllKeynotes, getApprovedKeynotes, getPendingKeynotes, updateKeynote, deleteKeynote, getKeynoteByID } = require('../../controllers/keynoteController');
+
 
 //editor protected route
 router.get('/editor-protected', userAuth, checkRole(['editor']), async(req, res) => {
@@ -172,7 +173,30 @@ router.delete('/keynote/delete-keynote/:id', userAuth , checkRole(['admin', 'edi
 
 router.get('/keynote/get-keynotes/:id', userAuth , checkRole(['admin', 'editor']), async(req,res) => {
     await getKeynoteByID(req, res);
+
+  }
+);
+
+router.post(
+  "/keynote/send-mail",
+  userAuth,
+  checkRole(["admin", "editor"]),
+  async (req, res) => {
+    await sendEmailToAdmin(req, res);
+  }
+);
+
+router.get(
+
+    "/keynote/count-keynotes",
+    userAuth,
+    checkRole(["admin", "editor"]),
+    async (req, res) => {
+      await countKeynotes(req, res);
+    }
+  );
 });
+
 
 //------------------------------------------End keynote routes---------------------------------------------------
 
