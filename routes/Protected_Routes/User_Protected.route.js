@@ -45,6 +45,7 @@ const {
   deleteKeynote,
   getKeynoteByID,
   sendEmailToAdmin,
+  countKeynotes
 } = require("../../controllers/keynoteController");
 
 //editor protected route
@@ -411,6 +412,15 @@ router.post(
   checkRole(["admin", "editor"]),
   async (req, res) => {
     await sendEmailToAdmin(req, res);
+  }
+);
+
+router.get(
+  "/keynote/count-keynotes",
+  userAuth,
+  checkRole(["admin", "editor"]),
+  async (req, res) => {
+    await countKeynotes(req, res);
   }
 );
 
